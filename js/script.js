@@ -11,7 +11,62 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
+const student_list = document.getElementsByClassName('student-list')[0]
+console.log('working')
 
+// Create a search field that when used, it will start filtering out the list to only include contacts that have atleast the letters but in.
+function search() {
+   const h2 = document.getElementsByTagName('h2')[0] 
+   const label = document.createElement('label')
+   const input = document.createElement('input')
+   const button = document.createElement('button')
+   const img = document.createElement('img')
+   label.className = 'student-search'
+   label.setAttribute('for', 'label')
+   h2.insertAdjacentElement('afterend', label)
+   input.placeholder = 'Search by name...'
+   input.id = 'search'
+   label.appendChild(input)
+   button.type = 'button'
+   label.appendChild(button)
+   img.src = 'img/icn-search.svg'
+   img.alt = 'Search icon'
+   button.appendChild(img)
+
+   // Completes search after clicking on Search button
+   button.addEventListener('click', (e) => {
+      let searchValue = input.value
+      console.log('Value of Search: ', searchValue)
+      const results = []
+      for(let i = 0; i < data.length; i++) {
+         const firstName = data[i].name.first.toUpperCase()
+         const lastName = data[i].name.last.toUpperCase()
+         if(searchValue.toUpperCase() === firstName || searchValue.toUpperCase() === lastName) {
+            results.push(data[i])
+         } 
+      }
+      input.value = ''
+      showPage(results, 1)
+      paginationButtons(results)
+   })
+
+   // Completes search with each key-up
+
+   input.addEventListener('keyup', (e) => {
+      let searchValue = (e.target.value).toUpperCase()
+      const results = []
+      for(let i = 0; i < data.length; i++) {
+         let firstName = data[i].name.first.toUpperCase()
+         let lastName = data[i].name.last.toUpperCase()
+         if(firstName.includes(searchValue) || lastName.includes(searchValue)) {
+            results.push(data[i])
+         }
+         showPage(results, 1)
+         paginationButtons(results)
+      }
+   })
+
+}
 
 /*
 Create the `showPage` function
@@ -21,7 +76,7 @@ This function will create and insert/append the elements needed to display a "pa
 function showPage(list, page){
    let startIndex = (page * 9) - 9
    let endIndex = page * 9
-   const student_list = document.getElementsByClassName('student-list')[0]
+   // const student_list = document.getElementsByClassName('student-list')[0]
 
    student_list.innerHTML = ''
 
@@ -55,6 +110,9 @@ function paginationButtons(list) {
    let numberOfPages = Math.ceil(list.length / 9)
 
    const link_list = document.querySelector('.link-list')
+   const li = document.createElement('li')
+   const button = document.createElement('button')
+   button.type = 'button'
    link_list.innerHTML = ''
 
    for(let i = 1; i <= numberOfPages; i++) {
@@ -66,7 +124,8 @@ function paginationButtons(list) {
    }
 
    // Assign the first <li> the class .active
-   const first_page = link_list.firstElementChild.firstElementChild
+   // const first_page = link_list.firstElementChild.firstElementChild
+   const first_page = link_list.getElementsByTagName('button')[0]
    first_page.className = 'active'
 
    // Waits for click and then changes the class for the button that was clicked
@@ -92,5 +151,5 @@ function paginationButtons(list) {
 // Call functions
 
 showPage(data, 1)
-
+search()
 paginationButtons(data)
