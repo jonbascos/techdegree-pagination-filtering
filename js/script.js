@@ -151,5 +151,5 @@ function paginationButtons(list) {
 // Call functions
 
 showPage(data, 1)
-search()
 paginationButtons(data)
+search()
