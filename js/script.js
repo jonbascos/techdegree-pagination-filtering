@@ -3,14 +3,6 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-
-
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
-
 const student_list = document.getElementsByClassName('student-list')[0]
 const link_list = document.querySelector('.link-list')
 
@@ -70,9 +62,7 @@ function search() {
          link_list.innerHTML = ''
          student_list.insertAdjacentHTML('beforeend', '<h2>No results found</h2>')
       }
-     
    })
-
 }
 
 /*
@@ -122,7 +112,7 @@ function addPagination(list) {
    button.type = 'button'
    link_list.innerHTML = ''
 
-   // Creates and inserts the page buttons for pagination
+   // Creates and inserts the correct number of page buttons for pagination
    for(let i = 1; i <= numberOfPages; i++) {
       link_list.insertAdjacentHTML('beforeend', `
          <li>
@@ -130,11 +120,6 @@ function addPagination(list) {
          </li>
       `)
    }
-   
-
-   console.log(link_list)
-
-
 
    // Assign the first <li> the class .active
    // const first_page = link_list.firstElementChild.firstElementChild
@@ -163,7 +148,6 @@ function addPagination(list) {
       }
    })
 }
-
 
 // Call functions
 
