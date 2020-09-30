@@ -12,7 +12,7 @@ For assistance:
 */
 
 const student_list = document.getElementsByClassName('student-list')[0]
-console.log('working')
+const link_list = document.querySelector('.link-list')
 
 // Create a search field that when used, it will start filtering out the list to only include contacts that have atleast the letters but in.
 function search() {
@@ -47,11 +47,10 @@ function search() {
       }
       input.value = ''
       showPage(results, 1)
-      paginationButtons(results)
+      addPagination(results)
    })
 
    // Completes search with each key-up
-
    input.addEventListener('keyup', (e) => {
       let searchValue = (e.target.value).toUpperCase()
       const results = []
@@ -61,9 +60,17 @@ function search() {
          if(firstName.includes(searchValue) || lastName.includes(searchValue)) {
             results.push(data[i])
          }
-         showPage(results, 1)
-         paginationButtons(results)
+         if(results.length > 0) {
+            showPage(results, 1)
+            addPagination(results)
+         }
       }
+      if(results.length === 0) {
+         student_list.innerHTML = ''
+         link_list.innerHTML = ''
+         student_list.insertAdjacentHTML('beforeend', '<h2>No results found</h2>')
+      }
+     
    })
 
 }
@@ -76,7 +83,6 @@ This function will create and insert/append the elements needed to display a "pa
 function showPage(list, page){
    let startIndex = (page * 9) - 9
    let endIndex = page * 9
-   // const student_list = document.getElementsByClassName('student-list')[0]
 
    student_list.innerHTML = ''
 
@@ -84,7 +90,6 @@ function showPage(list, page){
    for(let i = 0; i < list.length; i++){
       let sourceList = list[i]
       if(i >= startIndex && i < endIndex) {
-
          student_list.insertAdjacentHTML('beforeend', `
          <li class="student-item cf">
          <div class="student-details">
@@ -106,15 +111,18 @@ Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 */
 
-function paginationButtons(list) {
+function addPagination(list) {
    let numberOfPages = Math.ceil(list.length / 9)
+   console.log('List length: ', list.length)
+   console.log('Number of pages: ', numberOfPages)
 
-   const link_list = document.querySelector('.link-list')
+   // const link_list = document.querySelector('.link-list')
    const li = document.createElement('li')
    const button = document.createElement('button')
    button.type = 'button'
    link_list.innerHTML = ''
 
+   // Creates and inserts the page buttons for pagination
    for(let i = 1; i <= numberOfPages; i++) {
       link_list.insertAdjacentHTML('beforeend', `
          <li>
@@ -122,12 +130,21 @@ function paginationButtons(list) {
          </li>
       `)
    }
+   
+
+   console.log(link_list)
+
+
 
    // Assign the first <li> the class .active
    // const first_page = link_list.firstElementChild.firstElementChild
-   const first_page = link_list.getElementsByTagName('button')[0]
-   first_page.className = 'active'
-
+   const first_page_button = link_list.getElementsByTagName('button')[0]
+   
+   // Checks to make sure the page 1 button is not undefined.
+   if(first_page_button != undefined) {
+      first_page_button.className = 'active'
+   } 
+   
    // Waits for click and then changes the class for the button that was clicked
    link_list.addEventListener('click', (e) => {
       
@@ -151,5 +168,5 @@ function paginationButtons(list) {
 // Call functions
 
 showPage(data, 1)
-paginationButtons(data)
 search()
+addPagination(data)
