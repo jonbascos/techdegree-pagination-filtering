@@ -6,7 +6,9 @@ FSJS Project 2 - Data Pagination and Filtering
 const student_list = document.getElementsByClassName('student-list')[0]
 const link_list = document.querySelector('.link-list')
 
-// Create a search field that when used, it will start filtering out the list to only include contacts that have atleast the letters but in.
+/* 
+   Create a search field that when used, it will start filtering out the list to only include contacts that have atleast the letters but in.
+*/
 function search() {
    const h2 = document.getElementsByTagName('h2')[0] 
    const label = document.createElement('label')
@@ -38,8 +40,14 @@ function search() {
          } 
       }
       input.value = ''
-      showPage(results, 1)
-      addPagination(results)
+      if(results.length > 0) {
+         showPage(results, 1)
+         addPagination(results)
+      } else {
+         student_list.innerHTML = ''
+         link_list.innerHTML = ''
+         student_list.insertAdjacentHTML('beforeend', '<h2>No results found</h2>')
+      }
    })
 
    // Completes search with each key-up
@@ -65,11 +73,7 @@ function search() {
    })
 }
 
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
-
+// showPage() initially displays all of the students in the list and keeps track of how many pages of 9 there are.
 function showPage(list, page){
    let startIndex = (page * 9) - 9
    let endIndex = page * 9
@@ -96,11 +100,7 @@ function showPage(list, page){
    }
 }
 
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
-
+// addPagination() creates and adds the correct number of page buttons for pagination
 function addPagination(list) {
    let numberOfPages = Math.ceil(list.length / 9)
    console.log('List length: ', list.length)
@@ -112,7 +112,7 @@ function addPagination(list) {
    button.type = 'button'
    link_list.innerHTML = ''
 
-   // Creates and inserts the correct number of page buttons for pagination
+   // inserts the buttons into the DOM
    for(let i = 1; i <= numberOfPages; i++) {
       link_list.insertAdjacentHTML('beforeend', `
          <li>
