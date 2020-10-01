@@ -64,6 +64,7 @@ function search() {
             showPage(results, 1)
             addPagination(results)
          }
+         // console.log('From within keyup: ', results)
       }
       if(results.length === 0) {
          student_list.innerHTML = ''
@@ -103,8 +104,8 @@ function showPage(list, page){
 // addPagination() creates and adds the correct number of page buttons for pagination
 function addPagination(list) {
    let numberOfPages = Math.ceil(list.length / 9)
-   console.log('List length: ', list.length)
-   console.log('Number of pages: ', numberOfPages)
+   // console.log('List length: ', list.length)
+   // console.log('Number of pages: ', numberOfPages)
 
    // const link_list = document.querySelector('.link-list')
    const li = document.createElement('li')
@@ -144,7 +145,7 @@ function addPagination(list) {
                   e.target.className = 'active'
             }  
         }
-        showPage(data, e.target.textContent)
+        showPage(list, e.target.textContent)
       }
    })
 }
